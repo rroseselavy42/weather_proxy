@@ -19,6 +19,7 @@ test_container:
   stage: test
   services:
     - name: gitlab.palantetech.coop:4567/rrose_selavy/weather_proxy:latest
+      alias: test
   image: curlimages/curl
   script:
     - curl --fail-with-body 'test:80/v1/current.xml?q=10014&aqi=no'
