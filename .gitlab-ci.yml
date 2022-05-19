@@ -12,12 +12,12 @@ build_container:
       /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "weather_proxy:latest"
+      --destination "${CI_REGISTRY_IMAGE}:latest"
     
 test_container:
   stage: test
   services:
-    - name: $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/weather_proxy:latest
+    - name: $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/${CI_REGISTRY_IMAGE}:latest
       alias: test
       command: ["-e", "WEATHER_API_KEY=$WEATHER_API_KEY"]
   image: curlimages/curl
