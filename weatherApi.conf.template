@@ -1,0 +1,21 @@
+ # Proxy cache so we don't rack up a bill
+proxy_cache_path /var/lib/nginx/cache levels=1:2 keys_zone=apicache:10m max_size=100m;
+proxy_cache_key "$scheme$request_method$host$request_uri$is_args$args";
+
+# # keep cache life short as weather changes
+proxy_cache_valid 200 2m;
+
+server {
+    listen 80;
+#make sure to capture everything after /
+    location / {
+        #add dns resolver change to private resolver or move to upstream
+        resolver 1.1.1.1;
+        proxy_cache apicache;
+        proxy_cache_bypass $http_cache_control;
+        # pass the capture along
+        proxy_pass https://api.weatherapi.com:443$request_uri&key=${WEATHER_API_KEY};
+
+
+    }
+}
