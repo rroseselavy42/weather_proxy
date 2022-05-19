@@ -1,5 +1,6 @@
 ---
-
+variables:
+  WEATHER_API_KEY: $WEATHER_API_KEY
 build_container:
   stage: build
   image:
@@ -17,9 +18,7 @@ build_container:
 test_container:
   stage: test
   services:
-    - name: $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/weather_proxy:latest
-      alias: test
-      command: ["-e", "WEATHER_API_KEY=$WEATHER_API_KEY"]
+    - name: gitlab.palantetech.coop:4567/rrose_selavy/weather_proxy:latest
   image: curlimages/curl
   script:
     - curl --fail-with-body 'test:80/v1/current.xml?q=10014&aqi=no'
