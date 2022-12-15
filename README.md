@@ -8,3 +8,5 @@
 ## Example
 
 * `docker run -e WEATHER_API_KEY=$WEATHER_API_KEY -p 80:80 weather_proxy:latest`
+
+test
